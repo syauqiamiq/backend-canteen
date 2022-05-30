@@ -15,7 +15,11 @@ class PromoController extends Controller
      */
     public function index()
     {
-        //
+        $data = Promo::with("products")->get();
+        if (!$data) {
+            return sendResponse("Failed get data", 400, "error", null);
+        }
+        return sendResponse("Successfully Get Data", 200, "success", $data);
     }
 
     /**
@@ -36,7 +40,13 @@ class PromoController extends Controller
      */
     public function store(StorePromoRequest $request)
     {
-        //
+        $input = $request->only(["name", "discount"]);
+
+        $createdData = Promo::create($input);
+        if (!$createdData) {
+            return sendResponse("Failed to create data", 400, "error", null);
+        }
+        return sendResponse("Successfully create the data", 200, "success", $createdData);
     }
 
     /**
@@ -47,7 +57,9 @@ class PromoController extends Controller
      */
     public function show(Promo $promo)
     {
-        //
+        $data = $promo->load("products");
+
+        return sendResponse("Successfully get the data", 200, "success", $data);
     }
 
     /**
@@ -70,7 +82,9 @@ class PromoController extends Controller
      */
     public function update(UpdatePromoRequest $request, Promo $promo)
     {
-        //
+        $input = $request->only(["name", "discount"]);
+        $promo->update($input);
+        return sendResponse("Successfully update the data", 200, "success", $promo);
     }
 
     /**
@@ -81,6 +95,7 @@ class PromoController extends Controller
      */
     public function destroy(Promo $promo)
     {
-        //
+        $promo->delete();
+        return sendResponse("Successfully delete the data", 200, "success", $promo);
     }
 }
