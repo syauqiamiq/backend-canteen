@@ -15,7 +15,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $data = Product::with(["promo", "productCategory"])->get();
+        if (!$data) {
+            return sendResponse("Failed get data", 400, "error", null);
+        }
+        return sendResponse("Successfully Get Data", 200, "success", $data);
     }
 
     /**
@@ -36,7 +40,13 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $input = $request->only(["name", "stock", "price", "promo_id", "product_category_id"]);
+
+        $createdData = Product::create($input);
+        if (!$createdData) {
+            return sendResponse("Failed to create data", 400, "error", null);
+        }
+        return sendResponse("Successfully create the data", 200, "success", $createdData);
     }
 
     /**
@@ -47,7 +57,8 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $data = $product->load(["promo", "productCategory"]);
+        return sendResponse("Successfully get the data", 200, "success", $data);
     }
 
     /**
@@ -70,7 +81,9 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $input = $request->only(["name", "stock", "price", "promo_id", "product_category_id"]);
+        $product->update($input);
+        return sendResponse("Successfully update the data", 200, "success", $product);
     }
 
     /**
@@ -81,6 +94,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return sendResponse("Successfully delete the data", 200, "success", $product);
     }
 }

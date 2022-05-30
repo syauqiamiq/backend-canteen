@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,4 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix("v1")->group(function () {
     Route::apiResource("/product-category", ProductCategoryController::class);
     Route::apiResource("/promo", PromoController::class);
+    Route::apiResource("/product", ProductController::class);
 });

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('promos', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->bigInteger("discount");
+            $table->bigInteger("discount")->default(0);
             $table->timestamps();
         });
     }
