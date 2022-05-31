@@ -5,82 +5,101 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
-        //
+        $this->middleware('auth:api', ['except' => ['login', "register"]]);
+    }
+
+    public function register(StoreUserRequest $request)
+    {
+        $input = $request->only(["name", "email", "password", "balance", "is_admin"]);
+        $hashedPassword = bcrypt($input["password"]);
+        $user = User::create([
+            "name" => $input["name"],
+            "email" => $input["email"],
+            "password" => $hashedPassword,
+            "balance" => 0,
+            "is_admin" => false
+        ]);
+
+        return sendResponse("Register Success", 200, "success", [
+            "name" => $user->name,
+            "email" => $user->email,
+            "balance" => $user->balance,
+        ]);
+    }
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
+    {
+        $input = $request->only(['email', 'password']);
+
+        if (!$token = Auth::attempt($input)) {
+            return sendResponse("Unauthorized", 401, "error", null);
+        }
+
+        return sendResponse("Login Success", 200, "success", [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => Auth::factory()->getTTL() * 60
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Get the authenticated User.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function create()
+    public function me()
     {
-        //
+        $user = Auth::user();
+        return sendResponse("Authenticated", 200, "success", $user);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Log the user out (Invalidate the token).
      *
-     * @param  \App\Http\Requests\StoreUserRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreUserRequest $request)
+    public function logout()
     {
-        //
+        Auth::logout();
+
+        return sendResponse('Successfully logged out', 200, "success", null);
     }
 
     /**
-     * Display the specified resource.
+     * Refresh a token.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function refresh()
     {
-        //
+        return sendResponse("Refreshed Token", 200, "success", Auth::refresh());
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Get the token array structure.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @param  string $token
      *
-     * @param  \App\Http\Requests\UpdateUserRequest  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request, User $user)
+    protected function respondWithToken($token)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
-    {
-        //
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => Auth::factory()->getTTL() * 60
+        ]);
     }
 }

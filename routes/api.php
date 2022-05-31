@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,11 @@ Route::prefix("v1")->group(function () {
     Route::apiResource("/product-category", ProductCategoryController::class);
     Route::apiResource("/promo", PromoController::class);
     Route::apiResource("/product", ProductController::class);
+    Route::prefix("auth")->middleware("api")->group(function () {
+        Route::post('register', [UserController::class, "register"]);
+        Route::post('login', [UserController::class, "login"]);
+        Route::post('logout', [UserController::class, "logout"]);
+        Route::post('refresh', [UserController::class, "refresh"]);
+        Route::post('me', [UserController::class, "me"]);
+    });
 });
