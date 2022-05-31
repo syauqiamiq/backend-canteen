@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\ShoppingCart;
 use App\Http\Requests\StoreShoppingCartRequest;
 use App\Http\Requests\UpdateShoppingCartRequest;
+use App\Models\TransactionDetail;
 
 class ShoppingCartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,11 @@ class ShoppingCartController extends Controller
      */
     public function index()
     {
-        //
+        $data = ShoppingCart::with("user:id,name", "product:id,name,stock,price")->get();
+        if (!$data) {
+            return sendResponse("Failed get data", 400, "error", null);
+        }
+        return sendResponse("Successfully Get Data", 200, "success", $data);
     }
 
     /**
@@ -36,7 +45,13 @@ class ShoppingCartController extends Controller
      */
     public function store(StoreShoppingCartRequest $request)
     {
-        //
+        $input = $request->only(["user_id", "product_id"]);
+
+        $createdData = ShoppingCart::create($input);
+        if (!$createdData) {
+            return sendResponse("Failed to create data", 400, "error", null);
+        }
+        return sendResponse("Successfully create the data", 200, "success", $createdData);
     }
 
     /**
@@ -47,7 +62,9 @@ class ShoppingCartController extends Controller
      */
     public function show(ShoppingCart $shoppingCart)
     {
-        //
+        $data = $shoppingCart->load("user:id,name", "product:id,name,stock,price");
+
+        return sendResponse("Successfully get the data", 200, "success", $data);
     }
 
     /**
@@ -70,7 +87,9 @@ class ShoppingCartController extends Controller
      */
     public function update(UpdateShoppingCartRequest $request, ShoppingCart $shoppingCart)
     {
-        //
+        $input = $request->only(["user_id", "product_id"]);
+        $shoppingCart->update($input);
+        return sendResponse("Successfully update the data", 200, "success", $shoppingCart);
     }
 
     /**
@@ -81,6 +100,7 @@ class ShoppingCartController extends Controller
      */
     public function destroy(ShoppingCart $shoppingCart)
     {
-        //
+        $shoppingCart->delete();
+        return sendResponse("Successfully delete the data", 200, "success", $shoppingCart);
     }
 }

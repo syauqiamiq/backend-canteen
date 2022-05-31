@@ -13,7 +13,7 @@ class StoreTransactionDetailRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StoreTransactionDetailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "quantity" => "required",
+            "unit_price" => "required",
+            "transaction_id" => "required",
+            "product_id" => "required"
         ];
     }
 }

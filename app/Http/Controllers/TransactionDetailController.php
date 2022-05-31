@@ -8,6 +8,10 @@ use App\Http\Requests\UpdateTransactionDetailRequest;
 
 class TransactionDetailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware("auth:api");
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,11 @@ class TransactionDetailController extends Controller
      */
     public function index()
     {
-        //
+        $data = TransactionDetail::with("product:id,name,price")->get();
+        if (!$data) {
+            return sendResponse("Failed get data", 400, "error", null);
+        }
+        return sendResponse("Successfully Get Data", 200, "success", $data);
     }
 
     /**
@@ -36,7 +44,13 @@ class TransactionDetailController extends Controller
      */
     public function store(StoreTransactionDetailRequest $request)
     {
-        //
+        $input = $request->only(["quantity", "unit_price", "transaction_id", "product_id"]);
+
+        $createdData = TransactionDetail::create($input);
+        if (!$createdData) {
+            return sendResponse("Failed to create data", 400, "error", null);
+        }
+        return sendResponse("Successfully create the data", 200, "success", $createdData);
     }
 
     /**
@@ -47,7 +61,9 @@ class TransactionDetailController extends Controller
      */
     public function show(TransactionDetail $transactionDetail)
     {
-        //
+        $data = $transactionDetail->load("product:id,name,price");
+
+        return sendResponse("Successfully get the data", 200, "success", $data);
     }
 
     /**
@@ -70,7 +86,9 @@ class TransactionDetailController extends Controller
      */
     public function update(UpdateTransactionDetailRequest $request, TransactionDetail $transactionDetail)
     {
-        //
+        $input = $request->only(["quantity", "unit_price", "transaction_id", "product_id"]);
+        $transactionDetail->update($input);
+        return sendResponse("Successfully update the data", 200, "success", $transactionDetail);
     }
 
     /**
@@ -81,6 +99,7 @@ class TransactionDetailController extends Controller
      */
     public function destroy(TransactionDetail $transactionDetail)
     {
-        //
+        $transactionDetail->delete();
+        return sendResponse("Successfully delete the data", 200, "success", $transactionDetail);
     }
 }

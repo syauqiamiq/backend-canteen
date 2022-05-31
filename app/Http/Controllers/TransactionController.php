@@ -19,7 +19,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = Transaction::with("user:id,name", "transactionDetail")->get();
+        $data = Transaction::with([
+            "user:id,name",
+            "transactionDetail:id,quantity,unit_price,transaction_id,product_id",
+            "transactionDetail.product:id,name"
+        ])->get();
         if (!$data) {
             return sendResponse("Failed get data", 400, "error", null);
         }
@@ -66,7 +70,11 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        $data = $transaction->load("user:id,name", "transactionDetail");
+        $data = $transaction->load([
+            "user:id,name",
+            "transactionDetail:id,quantity,unit_price,transaction_id,product_id",
+            "transactionDetail.product:id,name"
+        ]);
 
         return sendResponse("Successfully get the data", 200, "success", $data);
     }

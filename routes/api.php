@@ -3,7 +3,9 @@
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\ShoppingCartController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionDetailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 use Illuminate\Http\Request;
@@ -31,7 +33,9 @@ Route::prefix("v1")->group(function () {
     Route::apiResource("product", ProductController::class);
     Route::apiResource("voucher", VoucherController::class);
     Route::apiResource("transaction", TransactionController::class);
-    Route::prefix("auth")->middleware("api")->group(function () {
+    Route::apiResource("transaction-detail", TransactionDetailController::class);
+    Route::apiResource("shopping-cart", ShoppingCartController::class);
+    Route::prefix("auth")->group(function () {
         Route::post('register', [UserController::class, "register"]);
         Route::post('login', [UserController::class, "login"]);
         Route::post('logout', [UserController::class, "logout"]);
