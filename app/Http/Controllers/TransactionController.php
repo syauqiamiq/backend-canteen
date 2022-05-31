@@ -8,6 +8,10 @@ use App\Http\Requests\UpdateTransactionRequest;
 
 class TransactionController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        $data = Transaction::with("user:id,name", "transactionDetail")->get();
+        if (!$data) {
+            return sendResponse("Failed get data", 400, "error", null);
+        }
+        return sendResponse("Successfully Get Data", 200, "success", $data);
     }
 
     /**
@@ -36,7 +44,18 @@ class TransactionController extends Controller
      */
     public function store(StoreTransactionRequest $request)
     {
-        //
+        $input = $request->only(["transaction_date", "total_price", "user_id", "note"]);
+
+        $createdData = Transaction::create([
+            "transaction_date" => $input["transaction_date"],
+            "total_price" => $input["total_price"],
+            "status" => "pending",
+            "user_id" => $input["user_id"],
+        ]);
+        if (!$createdData) {
+            return sendResponse("Failed to create data", 400, "error", null);
+        }
+        return sendResponse("Successfully create the data", 200, "success", $createdData);
     }
 
     /**
@@ -47,7 +66,9 @@ class TransactionController extends Controller
      */
     public function show(Transaction $transaction)
     {
-        //
+        $data = $transaction->load("user:id,name", "transactionDetail");
+
+        return sendResponse("Successfully get the data", 200, "success", $data);
     }
 
     /**
@@ -70,7 +91,9 @@ class TransactionController extends Controller
      */
     public function update(UpdateTransactionRequest $request, Transaction $transaction)
     {
-        //
+        $input = $request->only(["transaction_date", "total_price", "unit_price", "status", "user_id", "note"]);
+        $transaction->update($input);
+        return sendResponse("Successfully update the data", 200, "success", $transaction);
     }
 
     /**
@@ -81,6 +104,7 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        $transaction->delete();
+        return sendResponse("Successfully delete the data", 200, "success", $transaction);
     }
 }

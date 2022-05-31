@@ -13,7 +13,7 @@ class StoreVoucherRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class StoreVoucherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "code" => "required",
+            "amount" => "required",
+            "user_id" => "required"
         ];
     }
 }

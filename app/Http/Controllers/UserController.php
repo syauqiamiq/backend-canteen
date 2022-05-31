@@ -62,7 +62,13 @@ class UserController extends Controller
     public function me()
     {
         $user = Auth::user();
-        return sendResponse("Authenticated", 200, "success", $user);
+        return sendResponse("Authenticated", 200, "success", [
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "balance" => $user->balance,
+            "is_admin" => $user->is_admin
+        ]);
     }
 
     /**

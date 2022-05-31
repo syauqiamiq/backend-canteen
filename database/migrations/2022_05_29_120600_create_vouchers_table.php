@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("code");
+            $table->bigInteger("amount");
             $table->foreignId("user_id")->constrained("users");
-            $table->foreignId("transaction_id")->constrained("transactions");
             $table->timestamps();
         });
     }
