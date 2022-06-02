@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  webserver:
+    container_name: canteen-be
+    image: canteen-be:latest
+    ports:
+      - "3333:80"
+    env_file:
+      - ".env"
