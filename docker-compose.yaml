@@ -8,3 +8,18 @@ services:
       - "3333:80"
     env_file:
       - ".env"
+  db:
+    image: mysql:8.0.28
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
+    ports:
+      - "306:3306"
+    container_name: mysql8-local
+    environment:
+      MYSQL_ROOT_PASSWORD: "secret"
+      MYSQL_DATABASE: "test"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "secret"
+    restart: always
+
+network:
