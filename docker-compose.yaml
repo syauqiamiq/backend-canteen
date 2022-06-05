@@ -13,7 +13,7 @@ services:
     volumes:
       - ./docker/mysql/data:/var/lib/mysql
     ports:
-      - "306:3306"
+      - "3306:3306"
     container_name: mysql8-local
     environment:
       MYSQL_ROOT_PASSWORD: "secret"
