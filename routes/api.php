@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::prefix("cateen/v1")->group(function () {
+Route::prefix("canteen/v1")->group(function () {
     Route::apiResource("product-category", ProductCategoryController::class);
     Route::apiResource("promo", PromoController::class);
     Route::apiResource("product", ProductController::class);
