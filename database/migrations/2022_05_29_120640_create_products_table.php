@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string("name");
             $table->bigInteger("stock");
             $table->bigInteger("price");
-            $table->foreignId("promo_id")->default(null)->nullable()->constrained("promos");
-            $table->foreignId("product_category_id")->constrained("product_categories");
+            $table->foreignId("promo_id")->default(null)->nullable()->constrained("promos")->onDelete("set null");
+            $table->foreignId("product_category_id")->constrained("product_categories")->onDelete("cascade");
             $table->timestamps();
         });
     }

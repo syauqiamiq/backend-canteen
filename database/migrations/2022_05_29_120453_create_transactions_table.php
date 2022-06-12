@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date("transaction_date");
             $table->bigInteger("total_price");
             $table->string("status")->default("pending");
-            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("user_id")->constrained("users")->onDelete("cascade");
             $table->text("note")->nullable();
             $table->timestamps();
         });
