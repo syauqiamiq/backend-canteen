@@ -39,7 +39,12 @@ class PromoController extends Controller
     public function store(Request $request)
     {
         $input = $request->only(["name", "discount"]);
-        $createdData = Promo::create($input);
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input["name"])));
+        $createdData = Promo::create([
+            "name" => $input["name"],
+            "promo_slug" => $slug,
+            "discount" => $input["discount"]
+        ]);
         if (!$createdData) {
             return redirect()->route("promo-web.index")->with("danger", "Gagal Membuat Data");
         }
@@ -80,7 +85,12 @@ class PromoController extends Controller
     public function update(Request $request, Promo $promo)
     {
         $input = $request->only(["name", "discount"]);
-        $updatedData = $promo->update($input);
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input["name"])));
+        $updatedData = $promo->update([
+            "name" => $input["name"],
+            "promo_slug" => $slug,
+            "discount" => $input["discount"]
+        ]);
         if (!$updatedData) {
             return redirect()->route("promo-web.index")->with("danger", "Gagal Mengubah Data");
         }

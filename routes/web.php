@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\PromoController;
+use App\Http\Controllers\Client\LandingPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get("/", function () {
+    return redirect()->route("landing-page-web.index");
 });
+Route::resource("landing-page-web", LandingPageController::class);
 
 
 Route::prefix("admin")->group(function () {

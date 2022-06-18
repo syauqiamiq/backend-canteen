@@ -39,7 +39,11 @@ class ProductCategoryController extends Controller
     public function store(Request $request)
     {
         $input = $request->only(["name"]);
-        $createdData = ProductCategory::create($input);
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $input["name"])));
+        $createdData = ProductCategory::create([
+            "name" => $input["name"],
+            "category_slug" => $slug
+        ]);
         if (!$createdData) {
             return redirect()->route("product-category-web.index")->with("danger", "Gagal Membuat Data");
         }
