@@ -23,8 +23,8 @@ Route::get('/', function () {
 
 
 Route::prefix("admin")->group(function () {
-   Route::resource("dashboard", DashboardController::class);
-   Route::resource("product", ProductController::class);
-   Route::resource("product-category", ProductCategoryController::class);
-   Route::resource("promo", PromoController::class);
+    Route::resource("dashboard", DashboardController::class)->names("dashboard-web");
+    Route::resource("product", ProductController::class)->names("product-web");
+    Route::resource("product-category", ProductCategoryController::class)->names("product-category-web");
+    Route::resource("promo", PromoController::class)->names("promo-web");
 });

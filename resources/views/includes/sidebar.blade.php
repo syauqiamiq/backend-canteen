@@ -11,7 +11,7 @@
 <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
   <ul class="flex flex-col pl-0 mb-0">
     <li class="mt-0.5 w-full">
-      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/dashboard') ? 'bg-white' : ''}}  px-4 font-semibold text-slate-700 transition-colors" href="{{ route('dashboard.index') }}">
+      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/dashboard') ? 'bg-white' : ''}}  px-4 font-semibold text-slate-700 transition-colors" href="{{ route('dashboard-web.index') }}">
         <div class="bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
           <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>shop</title>
@@ -37,7 +37,7 @@
       </a>
     </li>
     <li class="mt-0.5 w-full">
-      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/product') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('product.index') }}">
+      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/product') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('product-web.index') }}">
         <div class="bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
           <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>shop</title>
@@ -63,7 +63,7 @@
       </a>
     </li>
     <li class="mt-0.5 w-full">
-      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/product-category') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('product-category.index') }}">
+      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/product-category') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('product-category-web.index') }}">
         <div class="bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
           <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>shop</title>
@@ -89,7 +89,7 @@
       </a>
     </li>
     <li class="mt-0.5 w-full">
-      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/promo') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('promo.index') }}">
+      <a class="py-2.7 shadow-soft-xl text-size-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg {{request()->is('admin/promo') ? 'bg-white' : ''}} px-4 font-semibold text-slate-700 transition-colors" href="{{  route('promo-web.index') }}">
         <div class="bg-gradient-fuchsia shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
           <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <title>shop</title>

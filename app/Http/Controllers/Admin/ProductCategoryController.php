@@ -27,7 +27,7 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.product_category.create");
     }
 
     /**
@@ -38,7 +38,12 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->only(["name"]);
+        $createdData = ProductCategory::create($input);
+        if (!$createdData) {
+            return redirect()->route("product-category-web.index")->with("danger", "Gagal Membuat Data");
+        }
+        return redirect()->route("product-category-web.index")->with("success", "Berhasil Membuat Data");
     }
 
     /**
@@ -58,9 +63,11 @@ class ProductCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ProductCategory $productCategory)
     {
-        //
+        $data = $productCategory->load("products");
+        // dd($data);
+        return view("pages.product_category.update", compact("data"));
     }
 
     /**
@@ -70,9 +77,14 @@ class ProductCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,  ProductCategory $productCategory)
     {
-        //
+        $input = $request->only(["name"]);
+        $updatedData = $productCategory->update($input);
+        if (!$updatedData) {
+            return redirect()->route("product-category-web.index")->with("danger", "Gagal Mengubah Data");
+        }
+        return redirect()->route("product-category-web.index")->with("success", "Berhasil Mengubah Data");
     }
 
     /**
@@ -81,8 +93,12 @@ class ProductCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ProductCategory $productCategory)
     {
-        //
+        $deletedData = $productCategory->delete();
+        if (!$deletedData) {
+            return redirect()->route("product-category-web.index")->with("danger", "Gagal Menghapus Data");
+        }
+        return redirect()->route("product-category-web.index")->with("success", "Berhasil Menghapus Data");
     }
 }
