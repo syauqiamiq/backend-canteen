@@ -30,7 +30,7 @@
             @csrf
             @method('PUT')
             <div class="p-6">
-              <label class="text-sm font-semibold">Nama Produk</label>
+              <label class="text-sm font-semibold">Nama Kategori Produk</label>
               <input type="text" name="name" value="{{ $data->name }}" placeholder="Masukkan Nama Produk" class="focus:shadow-soft-primary-outline text-size-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"/>
             </div>
             <div class="p-6 flex justify-end">

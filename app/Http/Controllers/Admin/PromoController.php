@@ -27,7 +27,7 @@ class PromoController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.promo.create");
     }
 
     /**
@@ -38,7 +38,12 @@ class PromoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->only(["name", "discount"]);
+        $createdData = Promo::create($input);
+        if (!$createdData) {
+            return redirect()->route("promo-web.index")->with("danger", "Gagal Membuat Data");
+        }
+        return redirect()->route("promo-web.index")->with("success", "Berhasil Membuat Data");
     }
 
     /**
@@ -58,9 +63,11 @@ class PromoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Promo $promo)
     {
-        //
+        $data = $promo->load("products");
+        // dd($data);
+        return view("pages.promo.update", compact("data"));
     }
 
     /**
@@ -70,9 +77,14 @@ class PromoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Promo $promo)
     {
-        //
+        $input = $request->only(["name", "discount"]);
+        $updatedData = $promo->update($input);
+        if (!$updatedData) {
+            return redirect()->route("promo-web.index")->with("danger", "Gagal Mengubah Data");
+        }
+        return redirect()->route("promo-web.index")->with("success", "Berhasil Mengubah Data");
     }
 
     /**
@@ -81,8 +93,12 @@ class PromoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Promo $promo)
     {
-        //
+        $deletedData = $promo->delete();
+        if (!$deletedData) {
+            return redirect()->route("promo-web.index")->with("danger", "Gagal Menghapus Data");
+        }
+        return redirect()->route("promo-web.index")->with("success", "Berhasil Menghapus Data");
     }
 }

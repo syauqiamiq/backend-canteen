@@ -21,8 +21,9 @@
 <div class="flex flex-wrap -mx-3">
   <div class="flex-none w-full max-w-full px-3">
     <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-      <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+      <div class="flex justify-between p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
         <h6>Tabel Promo</h6>
+        <a href="{{ route('promo-web.create') }}">Create</a>
       </div>
       <div class="flex-auto px-0 pt-0 pb-2">
         <div class="p-0 overflow-x-auto">
@@ -59,7 +60,22 @@
                   <p class="mb-0 font-semibold leading-normal text-size-sm">{{ $data->discount }}</p>
                 </td>
               
-              
+                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                  <div class="flex justify-center px-2">
+                    <a href="{{ route('promo-web.edit',["promo" =>$data->id]) }}" class="mr-4">
+                      <button type="button"  class="inline-block px-6 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-fuchsia leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+                        <i class="fas fa-pencil-alt"></i>
+                      </button>
+                    </a>
+                    <form action="{{ route('promo-web.destroy',["promo" =>$data->id]) }}" method="POST" enctype='multipart/form-data'>
+                      @csrf
+                      @method("DELETE")
+                      <button type="submit"  class="inline-block px-6 py-3 mr-3 font-bold text-center text-white uppercase align-middle transition-all rounded-lg cursor-pointer bg-gradient-fuchsia leading-pro text-size-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </form>
+                  </div>
+                </td>
               
               </tr>
               @endforeach
